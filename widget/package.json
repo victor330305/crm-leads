@@ -1,0 +1,13 @@
+{
+  "name": "crm-chat-widget",
+  "version": "1.0.0",
+  "description": "Widget de chat embebible para CRM Leads",
+  "scripts": {
+    "dev":   "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "typescript": "5.4.5",
+    "vite": "5.3.1"
+  }
+}

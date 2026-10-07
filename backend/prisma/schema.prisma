@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id            String         @id @default(cuid())
+  name          String
+  slug          String         @unique
+  config        Json
+  createdAt     DateTime       @default(now())
+  leads         Lead[]
+  users         User[]
+  products      Product[]
+  conversations Conversation[]
+}
+
+model User {
+  id        String   @id @default(cuid())
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  email     String
+  password  String
+  name      String
+  role      Role     @default(SELLER)
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  ADMIN
+  SELLER
+}
+
+model Lead {
+  id              String         @id @default(cuid())
+  tenantId        String
+  tenant          Tenant         @relation(fields: [tenantId], references: [id])
+  name            String?
+  phone           String?
+  city            String?
+  province        String?
+  channel         String
+  score           Int            @default(0)
+  temperature     Temperature    @default(COLD)
+  status          LeadStatus     @default(NEW)
+  intention       String?
+  product         String?
+  use             String?
+  notes           String?
+  assignedTo      String?
+  isRecovered     Boolean        @default(false)
+  firstResponseAt DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  conversations   Conversation[]
+  followUps       FollowUp[]
+}
+
+enum Temperature {
+  COLD
+  WARM
+  HOT
+}
+
+enum LeadStatus {
+  NEW
+  IN_PROGRESS
+  WAITING_HUMAN
+  ASSIGNED
+  FOLLOWUP
+  CONVERTED
+  LOST
+  CLOSED
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  tenantId  String
+  tenant    Tenant    @relation(fields: [tenantId], references: [id])
+  leadId    String
+  lead      Lead      @relation(fields: [leadId], references: [id])
+  channel   String
+  summary   String?
+  createdAt DateTime  @default(now())
+  messages  Message[]
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  role           MessageRole
+  content        String
+  intentDetected String?
+  scoreChange    Int?
+  createdAt      DateTime     @default(now())
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  tenantId    String
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  code        String
+  name        String
+  category    String
+  subcategory String?
+  description String?
+  dimensions  String?
+  materials   String?
+  use         String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model FollowUp {
+  id          String         @id @default(cuid())
+  leadId      String
+  lead        Lead           @relation(fields: [leadId], references: [id])
+  scheduledAt DateTime
+  sentAt      DateTime?
+  message     String
+  status      FollowUpStatus @default(PENDING)
+  attempt     Int            @default(1)
+}
+
+enum FollowUpStatus {
+  PENDING
+  SENT
+  CANCELLED
+}

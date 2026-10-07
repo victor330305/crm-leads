@@ -1,0 +1,28 @@
+# Variables de entorno — NUNCA subir al repositorio
+.env
+.env.local
+.env.production
+**/.env
+
+# Dependencias
+node_modules/
+**/node_modules/
+
+# Build
+dist/
+build/
+**/dist/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Agentes internos
+.agents/
