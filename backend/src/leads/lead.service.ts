@@ -34,19 +34,19 @@ export async function createOrUpdateLead(input: CreateOrUpdateLeadInput) {
     return prisma.lead.update({
       where: { id: leadId },
       data: {
-        // Solo actualizar campos que vienen en extractedData y no son null
-        ...(extractedData.name     && { name: extractedData.name as string }),
-        ...(extractedData.phone    && { phone: extractedData.phone as string }),
-        ...(extractedData.city     && { city: extractedData.city as string }),
-        ...(extractedData.province && { province: extractedData.province as string }),
-        ...(extractedData.product  && { product: extractedData.product as string }),
-        ...(extractedData.use      && { use: extractedData.use as string }),
-        ...(extractedData.intention && { intention: extractedData.intention as string }),
-        score: newScore,
+        name:        extractedData.name        ? (extractedData.name        as string) : existing.name,
+        phone:       extractedData.phone       ? (extractedData.phone       as string) : existing.phone,
+        city:        extractedData.city        ? (extractedData.city        as string) : existing.city,
+        province:    extractedData.province    ? (extractedData.province    as string) : existing.province,
+        product:     extractedData.product     ? (extractedData.product     as string) : existing.product,
+        use:         extractedData.use         ? (extractedData.use         as string) : existing.use,
+        intention:   extractedData.intention   ? (extractedData.intention   as string) : existing.intention,
+        score:       newScore,
         temperature: newTemperature,
-        status: getStatus(existing.status, newScore),
-        ...(isFirstResponse && { firstResponseAt: new Date(), isRecovered: true }),
-        updatedAt: new Date(),
+        status:      getStatus(existing.status, newScore),
+        firstResponseAt: isFirstResponse ? new Date() : existing.firstResponseAt,
+        isRecovered:     isFirstResponse ? true : existing.isRecovered,
+        updatedAt:   new Date(),
       },
     });
   }
