@@ -2,8 +2,13 @@
 // Todas las llamadas al backend pasan por acá
 import axios from 'axios';
 
+// En producción usa la URL de Railway, en desarrollo usa el proxy de Vite
+const BASE_URL = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api/v1`
+  : '/api/v1';
+
 const api = axios.create({
-  baseURL: '/api/v1',
+  baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 
