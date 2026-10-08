@@ -20,7 +20,7 @@ router.get('/', async (req: Request, res: Response) => {
       where: {
         tenantId,
         ...(temperature && { temperature: temperature as 'COLD' | 'WARM' | 'HOT' }),
-        ...(status && { status: status as string }),
+        ...(status && { status: status as 'NEW' | 'IN_PROGRESS' | 'WAITING_HUMAN' | 'ASSIGNED' | 'FOLLOWUP' | 'CONVERTED' | 'LOST' | 'CLOSED' }),
         ...(search && {
           OR: [
             { name: { contains: search as string, mode: 'insensitive' } },
@@ -58,7 +58,7 @@ router.get('/', async (req: Request, res: Response) => {
       where: {
         tenantId,
         ...(temperature && { temperature: temperature as 'COLD' | 'WARM' | 'HOT' }),
-        ...(status && { status: status as string }),
+        ...(status && { status: status as 'NEW' | 'IN_PROGRESS' | 'WAITING_HUMAN' | 'ASSIGNED' | 'FOLLOWUP' | 'CONVERTED' | 'LOST' | 'CLOSED' }),
       },
     });
 
