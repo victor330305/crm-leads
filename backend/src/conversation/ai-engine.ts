@@ -125,7 +125,7 @@ export async function processMessage(input: ChatInput): Promise<ChatOutput> {
   });
 
   // 12. Detectar si hay que derivar a un vendedor
-  const shouldHandoff = detectHandoff(updatedLead.score, message, reply);
+  const shouldHandoff = detectHandoff(updatedLead.score, message);
 
   if (shouldHandoff && updatedLead.status !== 'WAITING_HUMAN') {
     const summary = await generateSummary(conversation.id);
@@ -264,29 +264,33 @@ async function extractLeadData(message: string, currentLeadData: string): Promis
 
 /**
  * Detecta si la conversación debe derivarse a un vendedor humano.
+ * Solo deriva por score alto o por palabras clave EXPLÍCITAS del cliente.
+ * NO deriva por palabras en la respuesta del bot.
  */
-function detectHandoff(score: number, userMessage: string, botReply: string): boolean {
+function detectHandoff(score: number, userMessage: string): boolean {
+  // Score alto = lead caliente calificado
   if (score >= 71) return true;
 
+  // Palabras clave explícitas del CLIENTE que indican intención de compra
   const handoffTriggers = [
     'hablar con alguien',
     'hablar con una persona',
-    'vendedor',
+    'quiero hablar con',
     'llamarme',
     'me llamen',
+    'me llame',
     'presupuesto formal',
     'quiero comprar',
     'lo quiero',
     'cómo compro',
     'cómo pago',
+    'quiero avanzar',
+    'quiero seguir',
+    'mandame el presupuesto',
   ];
 
   const lowerMessage = userMessage.toLowerCase();
-  if (handoffTriggers.some((trigger) => lowerMessage.includes(trigger))) return true;
-
-  if (botReply.includes('alguien del equipo') && botReply.includes('contacte')) return true;
-
-  return false;
+  return handoffTriggers.some((trigger) => lowerMessage.includes(trigger));
 }
 
 /**
