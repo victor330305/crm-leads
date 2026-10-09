@@ -88,10 +88,13 @@ export function calculateScoreDelta(
   if (extractedData.intention === 'price_inquiry')  delta += 10;
   if (extractedData.intention === 'quote_request')  delta += 20;
   if (extractedData.intention === 'buy_intent')     delta += 25;
+  if (extractedData.intention === 'just_looking')   delta -= 5;  // penalizar curiosos
   if (extractedData.product)                        delta += 10;
   if (extractedData.use === 'commercial')           delta += 15;
   if (extractedData.use === 'institutional')        delta += 15;
   if (extractedData.urgency === true)               delta += 15;
+  if (extractedData.hasSpace === true)              delta += 15; // tiene medidas = proyecto real
+  if (extractedData.isRealBuyer === true)           delta += 20; // proyecto concreto
 
   // Palabras clave adicionales en el mensaje
   if (lower.includes('envío') || lower.includes('envio'))     delta += 10;
