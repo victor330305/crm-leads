@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juegos del Siglo XXI — Test Widget</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+    }
+    header {
+      background: white;
+      padding: 16px 32px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    header h1 { font-size: 20px; color: #1f2937; }
+    header p  { font-size: 13px; color: #6b7280; }
+    main {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 24px;
+      text-align: center;
+    }
+    main h2 { font-size: 32px; color: #1f2937; margin-bottom: 12px; }
+    main p  { font-size: 16px; color: #6b7280; margin-bottom: 40px; }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #e5e7eb;
+      text-align: left;
+    }
+    .card .emoji { font-size: 32px; margin-bottom: 12px; }
+    .card h3 { font-size: 15px; font-weight: 600; color: #1f2937; margin-bottom: 6px; }
+    .card p  { font-size: 13px; color: #6b7280; line-height: 1.5; }
+    .badge {
+      display: inline-block;
+      background: #eef2ff;
+      color: #4f46e5;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>🎪 Juegos del Siglo XXI</h1>
+      <p>Fabricantes de juegos infantiles y peloteros — Floresta, CABA</p>
+    </div>
+  </header>
+
+  <main>
+    <span class="badge">30 años de trayectoria</span>
+    <h2>Espacios de juego que inspiran</h2>
+    <p>
+      Creamos juegos infantiles, peloteros y estructuras de recreación para salones de fiestas,
+      restaurantes, plazas, colegios y hogares. Fabricación propia en Argentina.
+    </p>
+
+    <div class="products">
+      <div class="card">
+        <div class="emoji">🎠</div>
+        <h3>Peloteros y Laberintos</h3>
+        <p>Para salones de fiestas infantiles, shoppings y cadenas de gastronomía.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🛝</div>
+        <h3>Juegos Exteriores</h3>
+        <p>Para plazas, parques, colegios, clubes y jardines particulares.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🏗️</div>
+        <h3>Proyectos Especiales</h3>
+        <p>Instalaciones a medida para grandes espacios y proyectos corporativos.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🦽</div>
+        <h3>Línea Integradora</h3>
+        <p>Juegos inclusivos para niños con y sin discapacidad.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🏠</div>
+        <h3>Línea Familiar</h3>
+        <p>Toboganes, hamacas y casitas para jardines particulares.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🎨</div>
+        <h3>Tematizados</h3>
+        <p>Estructuras con temáticas personalizadas para tu negocio o institución.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Widget de atención al cliente -->
+  <script
+    src="https://crm-leads-7orf.vercel.app/crm-widget.iife.js"
+    data-tenant="cmuw1yeht0000ow5qqwmw9v70"
+    data-api="https://crm-leads-production-4039.up.railway.app"
+  ></script>
+
+</body>
+</html>
