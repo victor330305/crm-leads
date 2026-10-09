@@ -1,6 +1,6 @@
 {
   "name": "crm-leads-backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Backend CRM de leads - Juegos del Siglo XXI",
   "main": "dist/index.js",
   "scripts": {
