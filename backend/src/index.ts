@@ -66,9 +66,11 @@ app.use(express.json());
 
 // Health check — no requiere autenticación
 app.get('/health', (_req: Request, res: Response) => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { version } = require('../package.json') as { version: string };
   res.json({
     ok: true,
-    version: '1.0.0',
+    version,
     timestamp: new Date().toISOString(),
   });
 });
