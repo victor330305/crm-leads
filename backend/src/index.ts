@@ -65,6 +65,7 @@ app.use(express.json());
 // ─── Rutas ──────────────────────────────────────────────────────────────────
 
 // Health check — no requiere autenticación
+// v1.0.2 — actualizado para invalidar cache Railway
 app.get('/health', (_req: Request, res: Response) => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { version } = require('../package.json') as { version: string };
