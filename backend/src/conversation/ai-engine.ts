@@ -78,6 +78,12 @@ export async function processMessage(input: ChatInput): Promise<ChatOutput> {
   // 3. Cargar la Knowledge Base del tenant
   const knowledgeBase = await buildKnowledgeBase(tenantId);
 
+  // Cargar datos del tenant para personalizar el prompt
+  const tenant = await prisma.tenant.findUnique({
+    where: { id: tenantId },
+    select: { name: true, config: true },
+  });
+
   // 4. Formatear historial de la conversación
   const historyText = formatConversationHistory(
     conversation.messages.map((m) => ({ role: m.role, content: m.content }))
@@ -91,6 +97,8 @@ export async function processMessage(input: ChatInput): Promise<ChatOutput> {
     knowledgeBase,
     conversationHistory: historyText,
     leadData,
+    tenantName: tenant?.name,
+    tenantConfig: tenant?.config as Record<string, unknown> | undefined,
   });
 
   // 7. Llamar a Gemini para generar la respuesta
