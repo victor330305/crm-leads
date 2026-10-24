@@ -8,6 +8,7 @@ import { buildKnowledgeBase, formatConversationHistory } from '../knowledge/kb.s
 import { buildSystemPrompt, buildExtractionPrompt } from './prompts';
 import { createOrUpdateLead, calculateScoreDelta } from '../leads/lead.service';
 import { cancelFollowUps } from '../followup/engine';
+import { sendLeadHandoffEmail } from '../notifications/email.service';
 import { io } from '../index';
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY ?? '' });
@@ -147,6 +148,21 @@ export async function processMessage(input: ChatInput): Promise<ChatOutput> {
       where: { id: updatedLead.id },
       data: { status: 'WAITING_HUMAN' },
     });
+
+    // Enviar email de notificación al vendedor
+    const notifyEmail = process.env.NOTIFY_EMAIL;
+    if (notifyEmail) {
+      await sendLeadHandoffEmail(notifyEmail, {
+        tenantName:     tenant?.name ?? 'Tu empresa',
+        leadName:       updatedLead.name,
+        leadPhone:      updatedLead.phone,
+        leadCity:       updatedLead.city,
+        product:        updatedLead.product,
+        score:          updatedLead.score,
+        summary,
+        conversationId: conversation.id,
+      });
+    }
 
     io.emit('lead:handoff', {
       leadId: updatedLead.id,
