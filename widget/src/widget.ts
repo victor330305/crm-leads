@@ -11,12 +11,13 @@ const STORAGE_KEY_CONV     = 'crm_conversation_id';
 const WIDGET_ID            = 'crm-chat-widget';
 
 // Leer configuración del script tag
-function getConfig(): { tenantId: string; apiUrl: string } {
+function getConfig(): { tenantId: string; apiUrl: string; name: string } {
   const scripts = document.querySelectorAll<HTMLScriptElement>('script[data-tenant]');
   const script  = scripts[scripts.length - 1];
   return {
     tenantId: script?.dataset.tenant ?? '',
     apiUrl:   (script?.dataset.api ?? 'http://localhost:3001').replace(/\/$/, ''),
+    name:     script?.dataset.name ?? 'Asistente',
   };
 }
 
@@ -246,7 +247,7 @@ function buildHTML(): string {
       <div id="crm-chat-header">
         <div class="avatar">🎪</div>
         <div class="info">
-          <h4>Juegos del Siglo XXI</h4>
+          <h4>${config.name}</h4>
           <p>Respondemos al instante</p>
         </div>
         <button id="crm-chat-close" aria-label="Cerrar chat">×</button>
@@ -281,7 +282,6 @@ function initWidget(): void {
   let isOpen     = false;
   let isSending  = false;
   let unread     = 0;
-
   // ── Inyectar estilos ──
   const style = document.createElement('style');
   style.textContent = STYLES;
@@ -313,7 +313,7 @@ function initWidget(): void {
 
     // Mostrar bienvenida si no hay mensajes
     if (messages.children.length === 0) {
-      appendBotMessage('¡Hola! 👋 Soy el asistente de Juegos del Siglo XXI. ¿En qué te puedo ayudar hoy?');
+      appendBotMessage('👋 ¡Hola! ¿En qué te puedo ayudar hoy?');
     }
   }
 
