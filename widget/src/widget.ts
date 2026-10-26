@@ -236,7 +236,7 @@ const STYLES = `
 
 // ─── HTML del widget ──────────────────────────────────────────────────────────
 
-function buildHTML(): string {
+function buildHTML(name: string): string {
   return `
     <button id="crm-chat-btn" aria-label="Abrir chat">
       💬
@@ -247,7 +247,7 @@ function buildHTML(): string {
       <div id="crm-chat-header">
         <div class="avatar">🎪</div>
         <div class="info">
-          <h4>${config.name}</h4>
+          <h4>${name}</h4>
           <p>Respondemos al instante</p>
         </div>
         <button id="crm-chat-close" aria-label="Cerrar chat">×</button>
@@ -290,7 +290,7 @@ function initWidget(): void {
   // ── Inyectar HTML ──
   const container = document.createElement('div');
   container.id = WIDGET_ID;
-  container.innerHTML = buildHTML();
+  container.innerHTML = buildHTML(config.name);
   document.body.appendChild(container);
 
   // ── Referencias DOM ──
